@@ -1,0 +1,103 @@
+Lets talk about Cyber Security
+
+1) Why do we need Security?
+    -Vertraulichkeit(Confidentiality)
+        Hide the information (Using symmetric and asymmetric method)
+    -Authentizität (Authenticity)
+        The information or the message should reach at their proper destination. 
+    -Integrität (Integrity)
+
+Chiffre( also called cipher, function of encryption and decryption)
+Example: E(Ke,m) = c (cipher text)
+         D(Kd, c) = m (original mesage)
+
+Types of Chiffren
+1)Historical one. (Example: rotate the alphabet with certain key. like rot13)
+2)Shift cipher: Shift the letter with certain index. Example if we rotate a by 5 it will be e. 
+3)Substitution: say we have one word abc. we can substitute using some substitute like u for a, v for b and w for c
+
+
+Block ciphers encrypt data in fixed-size blocks. For example, if we have blocks of 64 bits, our message will
+ be divided into different segments of 64 bits each. The same key is used for both encryption and decryption.
+  An important concept to understand in block ciphers is padding. Padding is necessary when the last block of 
+  data is not a complete block size. For instance, if we want to encrypt the message "Hello," which consists 
+  of 5 characters, and our block size is 64 bits (or 8 bytes), we need to add extra bits to fill the block, 
+  such as "Hello0000." During decryption, the padding is removed to recover the original message.
+
+On the other hand, stream ciphers operate by encrypting data as a continuous stream. This means that data 
+flows like a stream, processing each bit one at a time. For example, if we want to encrypt the message
+ "abcdefghijklmno" using a key like "11001010010101001010," we XOR each bit of the plaintext with the
+  corresponding bit of the key. The encryption occurs bit by bit, creating a seamless flow of encrypted data.
+   In summary, block ciphers require padding and operate on fixed-size blocks, while stream ciphers work on a 
+   continuous flow of data, encrypting bit by bit.
+
+Electronic Code Book (ECB):
+ECB is a mode of operation for block ciphers. Similar to other block cipher modes, plaintext is divided into 
+fixed-size blocks, and each block is independently encrypted using the same key. However, ECB is considered 
+insecure for certain uses because of its lack of randomness.
+
+Here’s an example to illustrate this: Suppose we want to encrypt the plaintext message "abcdefghiabcdefghiabcdefghi". 
+Dividing it into 8-byte (or similar) blocks would mean each identical block (e.g., "abcdefghi") gets encrypted in 
+the same way using a single key, say "12345678". Because ECB encrypts each block separately with no variation
+ between blocks, identical plaintext blocks will yield identical ciphertext blocks.
+
+This deterministic process reveals patterns in the encrypted message, compromising confidentiality and 
+potentially allowing attackers to deduce information about the plaintext. As a result, ECB should be avoided 
+for sensitive data and repetitive structures, as it does not provide adequate security for real-world encryption needs.
+
+
+Cipher Block Chaining: 
+        CBC improves upon ECB by using an IV for the first block and chaining the blocks together using the
+    previous ciphertext, rather than using the last key. This ensures that the encryption process is less
+    predictable and provides better confidentiality for the data. Your understanding is a good start; 
+    just be sure to remember the role of the previous ciphertext rather than a "last key" in the chaining
+    process!
+
+Stream ciphers encrypt data bit by bit using keystream generated from a secret key. A critical vulnerabilities
+arises when same keystream is used to encrypt mulitple messages. 
+
+say we have to messages to encrypt. say m1 and m2 and we have the key c1 and c2. 
+And we encrypt our message as follow. 
+    c1 = m1 xor keystream
+    c2 = m2 xor keystream
+Then it can be exploited by the attackers. because c1 xor c2 is equal to m1 xor m2. 
+
+Hashfunction: 
+        A hash function is a mathematical method that maps a large input (message) to a smaller, fixed-size output
+     (hash value), allowing for efficient data management regardless of input size. For instance, SHA-256 
+     is a well-known hash function that consistently produces a 256-bit output, making it suitable for 
+     various applications such as data integrity verification and password storage. One of the key features 
+     of hash functions is their efficiency; calculating the hash of an n-bit input has a time complexity of 
+     O(n), meaning that the time taken to compute the hash is proportional to the size of the input.
+     This combination of flexible input handling and fixed output size underlines the significance of hash 
+     functions in computing and cryptography.
+
+Symmetric Key Encryption:
+        It  offers both advantages and disadvantages. On the positive side, it is fast and 
+    efficient, making it well-suited for encrypting large amounts of data. However, there are significant
+    challenges as well. One major issue is that both parties—User A and User B—need to share the same secret key
+    to communicate securely. This creates a key distribution problem, especially in systems with many users. 
+    The key sharing process can also compromise the authenticity property of cryptography, as if the key is 
+    intercepted, the security of the communication is breached. Furthermore, symmetric encryption faces 
+    scalability challenges in terms of key management. In a network of N users, each pair needs a unique key,
+    resulting in a growth rate of N(N-1)/2 keys, which becomes increasingly inefficient and difficult to 
+    manage as the number of users increases. This makes symmetric encryption less efficient than asymmetric
+    encryption in larger systems.
+
+Asymmetric Key Encryption: 
+    In asymmetric encryption, there are two different keys: one for encryption 
+(the public key) and another for decryption (the private key). This system provides better security compared 
+to symmetric encryption, as the private key is kept secret, and only the public key is shared. However, 
+the algorithms used for asymmetric encryption are generally more complex, making them harder to implement 
+efficiently in both software and hardware.
+
+Let’s use an analogy: Suppose User A wants to send a message to User B. User A and User B each have a public 
+key and a private key. The public key is shared openly, while the private key remains secret. To send a 
+secure message, User A will encrypt the message using User B’s public key, ensuring that only User B can 
+decrypt it using their private key. In this system, User A does not use their private key to encrypt the 
+message. Instead, the encryption is done using User B's public key. User B will then decrypt the message 
+using their private key.
+
+This encryption-decryption mechanism ensures that even if someone intercepts the message, they cannot 
+decrypt it without the private key.
+
